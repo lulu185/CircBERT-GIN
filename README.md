@@ -1,6 +1,5 @@
 # CircBERT-GIN
 Implementation of Circular miRNA Classification Model Based on DNABERT and GIN  
-Overview  
   CircBERT‑GIN is a deep learning framework that integrates DNABERT‑2 (sequence encoding), Graph Isomorphism Network (GIN) (RNA secondary structure graph encoding), and multi‑dimensional biological features for accurate classification of circulating miRNAs and potential biomarker discovery.  
 The model fuses:  
   1. Sequence features from miRNA precursors  
