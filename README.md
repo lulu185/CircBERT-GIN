@@ -24,11 +24,10 @@ The model fuses:
   2. Top miRNA feature ranking  
   3. Functional enrichment analysis support  
 # Files
-  train.py: Train & test CircBERT‑GIN for classification  
-  main_biomarker: Identify circulating miRNA biomarkers  
+  train.py: Train & test CircBERT‑GIN for classification   
   models.py: Full CircBERT‑GIN architecture  
   data_process.py: miRBase / GEO data parsing & preprocessing  
-  feature_engineering.py: Sequence, structure, and biological feature extraction  
+  feature.py: Sequence, structure, and biological feature extraction  
   train_test.py: Training loop, evaluation, cross‑validation  
   utils.py: Helper functions for encoding, attention, and visualization  
 # Data
