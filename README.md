@@ -10,19 +10,19 @@ The model fuses:
   5. It achieves ~96.4% accuracy on the combined miRBase + GEO dataset for circulating miRNA identification.  
 # Workflow
 Data collection  
-  miRNA precursor sequences from miRBase  
-  Circulating miRNA annotations from miRandola  
-  miRNA‑Seq data from GEO (SRP253164, SRP275837, SRP288605, SRP324141, SRP372688)  
-  Processed via miRDeep2 for novel miRNA detection & confidence scoring  
+  1. miRNA precursor sequences from miRBase  
+  2. Circulating miRNA annotations from miRandola  
+  3. miRNA‑Seq data from GEO (SRP253164, SRP275837, SRP288605, SRP324141, SRP372688)  
+  4. Processed via miRDeep2 for novel miRNA detection & confidence scoring  
 CircBERT‑GIN model  
-  DNABERT‑2: BPE + RoPE for long‑range sequence representation  
-  GIN: One‑hot + EIIP + ANF encoding for RNA structure graphs  
-  Multi‑branch CNN + CBAM: spatial & channel attention enhancement  
-  MLP classifier for final binary prediction (circulating / non‑circulating)  
+  1. DNABERT‑2: BPE + RoPE for long‑range sequence representation  
+  2. GIN: One‑hot + EIIP + ANF encoding for RNA structure graphs  
+  3. Multi‑branch CNN + CBAM: spatial & channel attention enhancement  
+  4. MLP classifier for final binary prediction (circulating / non‑circulating)  
 Biomarker discovery  
-  Feature importance by perturbation‑based masking  
-  Top miRNA feature ranking  
-  Functional enrichment analysis support  
+  1. Feature importance by perturbation‑based masking  
+  2. Top miRNA feature ranking  
+  3. Functional enrichment analysis support  
 # Files
   train.py: Train & test CircBERT‑GIN for classification  
   main_biomarker: Identify circulating miRNA biomarkers  
