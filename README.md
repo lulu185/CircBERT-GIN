@@ -8,7 +8,7 @@ The model fuses:
   Genomic and thermodynamic biological attributes
   Multi‑scale CNN + CBAM attention for feature enhancement
   It achieves ~96.4% accuracy on the combined miRBase + GEO dataset for circulating miRNA identification.
-Workflow
+# Workflow
 Data collection
   miRNA precursor sequences from miRBase
   Circulating miRNA annotations from miRandola
@@ -23,7 +23,7 @@ Biomarker discovery
   Feature importance by perturbation‑based masking
   Top miRNA feature ranking
   Functional enrichment analysis support
-Files
+# Files
   train.py: Train & test CircBERT‑GIN for classification
   main_biomarker: Identify circulating miRNA biomarkers
   models.py: Full CircBERT‑GIN architecture
@@ -31,17 +31,17 @@ Files
   feature_engineering.py: Sequence, structure, and biological feature extraction
   train_test.py: Training loop, evaluation, cross‑validation
   utils.py: Helper functions for encoding, attention, and visualization
-Data
+# Data
   Public datasets used in this study:
   miRBase: https://mirbase.org/
   miRandola: http://mirandola.di.unito.it/
   GEO: https://www.ncbi.nlm.nih.gov/geo/
   Human reference genome hg38
-Data format
+# Data format
   Numeric feature matrix: (samples × features)
   Sample IDs match label rows
   Binary labels: 1 = circulating miRNA, 0 = non‑circulating
-Requirements
+# Requirements
   torch ≥ 1.10
   cuda ≥ 11.3
   python ≥ 3.7
@@ -49,7 +49,7 @@ Requirements
   torch_geometric
   scikit‑learn
   pandas, numpy, matplotlib
-Usage
+# Usage
   Train and evaluate the model
   bash python main_circbertgin.py
   Discover circulating miRNA biomarkers
