@@ -3,15 +3,31 @@ import torch.nn as nn
 import torch.nn.functional as F
 from .CBAM import *
 
-class CNNNET(nn.Module):
-    def __init__(self, input_channel, num_classes=2):
-        super(CNNNET, self).__init__()
+# 构建CNN模块和CBAM
+class CNNNET2(nn.Module):
+    def __init__(self, input_channel, embedding_dim=159, num_classes=2):
+        super(CNNNET2, self).__init__()
+        
+        # 确保 input_channel 是整数
+        if isinstance(input_channel, torch.Tensor):
+            if input_channel.numel() != 1:
+                input_channel = input_channel.mean().item()  # 取平均并转换为浮点数
+            else:
+                input_channel = input_channel.item()  # 转换为浮点数
+        
+        # 将 input_channel 转换为整数
+        input_channel = int(round(input_channel))  # 四舍五入并转换为整数
+        
+        # 检查 input_channel 是否为正整数
+        if not isinstance(input_channel, int) or input_channel <= 0:
+            raise ValueError(f"input_channel 必须是正整数，当前值为: {input_channel}")
         
         # 第一层卷积
         self.conv1 = nn.Sequential(
             nn.Conv1d(in_channels=input_channel, out_channels=60, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm1d(60),
-            nn.GELU(),
+            nn.GELU()
+            
         )
         
         # 第二层卷积（三个分支）
@@ -75,34 +91,28 @@ class CNNNET(nn.Module):
         
         return F.softmax(x, dim=1)
 
-class Bert_Blend_CNN(nn.Module):
-    def __init__(self, vocab_size, embedding_dim, input_channel_other):
-        super(Bert_Blend_CNN, self).__init__()
-        # 嵌入层处理离散特征（假设前23列是token IDs）
-        self.embedding = nn.Embedding(num_embeddings=vocab_size, 
-                                    embedding_dim=embedding_dim,
-                                    padding_idx=0)  # 假设0是padding索引
+
+# 构建Bert_Blend_CNN模型，仅包含CNN部分
+class Bert_Blend_CNN2(nn.Module):
+    def __init__(self, input_channel):
+        super(Bert_Blend_CNN2, self).__init__()
         
-        # 计算总输入维度：嵌入后的特征 + 其他特征
-        self.total_input_dim = embedding_dim + input_channel_other
+        # 确保 input_channel 是整数
+        if isinstance(input_channel, torch.Tensor):
+            if input_channel.numel() != 1:
+                input_channel = input_channel.mean().item()  # 取平均并转换为浮点数
+            else:
+                input_channel = input_channel.item()  # 转换为浮点数
         
-        # CNN部分（输入维度调整为total_input_dim）
-        self.cnn = CNNNET(input_channel=self.total_input_dim)
+        # 将 input_channel 转换为整数
+        input_channel = int(round(input_channel))  # 四舍五入并转换为整数
+        
+        # 检查 input_channel 是否为正整数
+        if not isinstance(input_channel, int) or input_channel <= 0:
+            raise ValueError(f"input_channel 必须是正整数，当前值为: {input_channel}")
+        
+        self.model = CNNNET2(input_channel)
 
     def forward(self, x):
-        # 分离离散特征（前23列）和其他特征
-        discrete_features = x[:, :23].long()  # 强制转换为long类型
-        other_features = x[:, 23:]
-        
-        # 嵌入层处理离散特征 [batch, 23] -> [batch, 23, embed_dim]
-        embedded = self.embedding(discrete_features)
-        
-        # 沿序列维度池化（取均值）
-        embedded_pooled = embedded.mean(dim=1)  # [batch, embed_dim]
-        
-        # 拼接其他特征
-        combined = torch.cat([embedded_pooled, other_features], dim=1)
-        
-        # 输入到CNN
-        output = self.cnn(combined)
-        return output
+        x = self.model(x)
+        return x
